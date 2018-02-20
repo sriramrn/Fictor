@@ -169,56 +169,7 @@ void setup() {
       notes.println("Delay RandPattern\t:\tN.A.");  
       notes.println("Delay Seed\t\t:\tN.A.");
     }
-
-    notes.println("Sensory Replay\t\t:\t"+str(interleave_sensory_replay));
-    if (interleave_sensory_replay) {
-      notes.print("Record Stimulus\t\t:\t{");
-      for (int i=0; i<loadPattern.length; i++){
-        notes.print("{");
-        for (int  ii=0; ii<loadPattern[i].length; ii++){
-          notes.print(loadPattern[i][ii]);
-          if (ii<loadPattern[i].length-1){notes.print(",");}
-        }
-        notes.print("}");
-        if (i==loadPattern.length-1){notes.print("}");}
-      }
-      notes.println();
-     
-      notes.print("Record Position\t\t:\t{");
-      for (int i=0; i<trialsToRecord.length; i++){
-          notes.print(trialsToRecord[i]);
-          if (i<trialsToRecord.length-1){notes.print(",");}
-        }
-      notes.print("}");
-      notes.println();      
-      
-      notes.print("Replay Stimulus\t\t:\t{");
-      for (int i=0; i<replayPattern.length; i++){
-        notes.print("{");
-        for (int  ii=0; ii<replayPattern[i].length; ii++){
-          notes.print(replayPattern[i][ii]);
-          if (ii<replayPattern[i].length-1){notes.print(",");}
-        }
-        notes.print("}");
-        if (i==replayPattern.length-1){notes.print("}");}
-      }
-      notes.println();
-      
-      notes.print("Replay Position\t\t:\t{");
-      for (int i=0; i<trialsToReplay.length; i++){
-          notes.print(trialsToReplay[i]);
-          if (i<trialsToReplay.length-1){notes.print(",");}
-        }
-      notes.print("}");
-      notes.println();      
-      
-    }
-    else {
-      notes.println("Record Position\t\t:\tN.A.");
-      notes.println("Record Trials\t\t:\tN.A.");
-      notes.println("Replay Position\t\t:\tN.A.");
-      notes.println("Replay Trials\t\t:\tN.A.");
-    }
+    
     
     notes.println("Bout Clamp\t\t:\t"+str(boutClamp));
     if (boutClamp) {
@@ -274,23 +225,6 @@ void setup() {
   
   arduino.pinMode(self_trig_out, Arduino.OUTPUT);
   arduino.digitalWrite(self_trig_out, Arduino.LOW);
-  
-  //Error checks
-  if (interleave_sensory_replay) {
-    
-    if(min(trialsToReplay) <= min(trialsToRecord)) {
-      System.err.println("***Attempted to replay before recording***\n***Aborting Experiment***");
-      exit();
-    }
-    
-    for (int i=0; i<trialsToRecord.length; i++) {
-      if (ifisin(trialsToRecord[i],trialsToReplay)) {
-        System.err.println("***Attempted to record and replay sensory events simultaneously***\n***Aborting Experiment***");
-        exit();
-      }
-    }
-    
-  }
   
 }
 

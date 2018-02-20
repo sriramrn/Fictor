@@ -1,10 +1,11 @@
 int CurrentTime = 0;
-
 int acquisition = 0;
+
 
 int[][] motifduration = segmentduration;
 int gainindex = 0;
 float randgain = 0.0;
+
 
 int Trigger = 0;
 int TrialDuration = 0;
@@ -17,20 +18,12 @@ int prev_rep = 0;
 Boolean new_rep = false;
 int sumduration = 0;
 
+
 int[][] MotifDuration = new int[motifduration.length][motifduration[0].length];
 int[][] DurIncrement = new int[motifduration.length][motifduration[0].length];
 float[][] fs = FlowSequence;
 float speed = 0.0;
 float randflow = 0.0;
-
-//Sensory replay setup
-boolean replay = false;
-float replay_k = 0;
-int replay_count = 0;
-float flow_replay = 0;
-float gain_replay = 0;
-float[] swim_replay = new float[1];
-boolean resetBuffer = false;
 
 
 //Delay line with FIFO buffer

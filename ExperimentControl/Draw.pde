@@ -121,27 +121,7 @@ void draw() {
             speed = 0;
           }
         }
-      }
-      
-      
-      if (interleave_sensory_replay) {
-        if (loadPattern[repeatcounter][motifcounter] == 1 && ifisin(trialcounter,trialsToRecord)) {
-          gain_replay = gain;
-          flow_replay = speed;
-          swim_replay = append(swim_replay,k);
-        }
-        if (replayPattern[repeatcounter][motifcounter] == 1 && ifisin(trialcounter,trialsToReplay)) {
-          replay = true;
-          resetBuffer = true;
-          replay_count++;
-          gain = gain_replay;
-          speed = flow_replay;
-          if (replay_count < swim_replay.length) {
-            replay_k = swim_replay[replay_count];
-          }
-        }
       }      
-      
       
     }
     
@@ -156,18 +136,14 @@ void draw() {
     
 
     //*** Updates to k and speed must be made before this part of the loop. Otherwise, changes will take an extra frame to be displayed ***
-    if (!OpenLoop && !replay)
+    if (!OpenLoop)
     {
       xPos = xPos+((speed-(k*invert))*scal);
     }
-    if (OpenLoop && !replay)
+    if (OpenLoop)
     {
       xPos = xPos+(speed*scal);
-    }
-    
-    if (replay) {
-      xPos = xPos+((speed-(replay_k*invert))*scal);
-    }    
+    }   
     
     Data[0] = str(copy_k); Data[1] = str(CurrentTime); Data[2] = str(gain);
     Data[3] = str(speed*pixelwidth); Data[4] = str(((float) raw_k)*movement_scaling);
@@ -195,12 +171,6 @@ void draw() {
     trigswitch = 0;
     gainindex = 0;
     curr_rep = 0;
-
-    flow_replay = 0;
-    gain_replay = 0;
-    replay_count = 0;
-    swim_replay = new float[1];
-    resetBuffer = false;
     
     filepath=GeneratePath(path,date,basename,acquisition);    
     for (int i = 0; i < DataWriter.length; i++) {
@@ -258,15 +228,7 @@ void draw() {
     new_rep = false;
   }
   prev_rep = curr_rep; 
-  
-  if (new_rep && resetBuffer) {
-    replay = false;
-    flow_replay = 0;
-    gain_replay = 0;
-    replay_count = 0;
-    swim_replay = new float[1];
-  }
-  
+
   if (trigger_on_repeats == true && new_rep == true && self_trig_state == 0) {
     arduino.digitalWrite(self_trig_out, Arduino.HIGH);
     self_trig_state = 1;
