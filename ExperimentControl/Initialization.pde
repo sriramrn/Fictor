@@ -53,6 +53,8 @@ float speedTau = 250/frameinterval; //timecourse of transition in milliseconds
 float prevSpeed = 0;
 float minSpeed = 0.01;
 
+float flowOvrdVal = flowOverrideValue/pixelwidth;
+
 //Prevents trial structure calculation in void setup() from running twice 
 boolean setup = false;
 

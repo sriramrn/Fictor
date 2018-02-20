@@ -104,6 +104,13 @@ void draw() {
       }
       
       
+      if (flowOverride) {
+        if (ifisin(trialcounter,flowOverrideTrials) && flowOverridePattern[repeatcounter][motifcounter] == 1) {
+          speed = flowOvrdVal;
+        }
+      }
+      
+      
       if (boutClamp) {
         if (boutEnd && new_rep){
           boutStart = false;

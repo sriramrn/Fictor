@@ -22,6 +22,12 @@ boolean flowRandomize = true;
 int[][] flowRandPattern = {{0,1}};
 float[] flowBucket = {1.0,0.5,2.0};
 
+//Override flow value at certain trials
+boolean flowOverride = true;
+int[] flowOverrideTrials = {2,4,6}; //index from 0
+int[][] flowOverridePattern = {{0,1}};
+int flowOverrideValue = 0; 
+
 //*** Maximum value is 1000ms. Change if necessary in the Initialization tab ***
 int feedbackDelay = 1; //in milliseconds (must be non-zero) (@ 11.76Hz 2P imaging, feedbackDelay = 256 gives 3 frames)
 boolean delayRandomize = false;
