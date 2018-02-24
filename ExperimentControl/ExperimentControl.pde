@@ -3,7 +3,7 @@ boolean OpenLoop = false;
 boolean Repeat = true;    //Allow multiple repeats or not
 
 //Sequence of gain changes to be followed if repeat == true
-float[][] GainSequence = {{0,1}};
+float[][] GainSequence = {{1,1}};
 
 //Sequence of flow changes
 float[][] FlowSequence = {{0,1}};
@@ -24,7 +24,7 @@ float[] flowBucket = {1.0,0.5,2.0};
 
 //Override flow value at certain trials
 boolean flowOverride = true;
-int[] flowOverrideTrials = {2,4,6}; //index from 0
+int[] flowOverrideTrials = {7,16,22,36,43,57}; //index from 0
 int[][] flowOverridePattern = {{0,1}};
 int flowOverrideValue = 0; 
 
@@ -40,11 +40,11 @@ boolean boutClamp = true;
 int[][] clampPattern = {{0,1}};
 float clampAfter = 1; //milliseconds after bout end to stop baseline flow
 
-int nrepeats = 10;                   //Repeats of the gain sequence per trial
+int nrepeats = 60;                   //Repeats of the gain sequence per trial
 int cycles = 1;                       //Number of cycles of each trial
 
 String Genotype = "Aldoca:GCaMP6s ; Nacre -/-";
-String DPF = "8";
+String DPF = "7";
 
 String path = "D:/ClosedLoopRaw";
 String basename = "test";

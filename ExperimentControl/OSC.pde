@@ -7,7 +7,7 @@ OscP5 oscP5;
 
 float gain = 1;
 
-float movement_scaling = 1.0;
+float movement_scaling = 1.61;
 
 double raw_k = 0.0; float k = 0.0; float prev_k = 0.0; 
 float copy_k = 0.0; float prev_copy_k; 

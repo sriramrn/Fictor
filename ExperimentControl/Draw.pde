@@ -112,7 +112,7 @@ void draw() {
       
       
       if (boutClamp) {
-        if (boutEnd && new_rep){
+        if (new_rep) {
           boutStart = false;
           boutEnd = false;
         }        

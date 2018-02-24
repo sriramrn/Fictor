@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<VisualizerLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<VisualizerLayout xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <DialogSettings xsi:type="WorkflowEditorSettings">
     <Visible>false</Visible>
     <Location>
@@ -18,8 +18,8 @@
     <EditorDialogSettings>
       <Visible>true</Visible>
       <Location>
-        <X>109</X>
-        <Y>641</Y>
+        <X>178</X>
+        <Y>544</Y>
       </Location>
       <Size>
         <Width>1250</Width>
