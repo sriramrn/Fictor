@@ -40,8 +40,9 @@ boolean boutClamp = true;
 int[][] clampPattern = {{0,1}};
 float clampAfter = 1; //milliseconds after bout end to stop baseline flow
 
+int subreps = {2};                   //Repeats of each block before going to the next
 int nrepeats = 60;                   //Repeats of the gain sequence per trial
-int cycles = 1;                       //Number of cycles of each trial
+int cycles = 1;                      //Number of cycles of each trial
 
 String Genotype = "Aldoca:GCaMP6s ; Nacre -/-";
 String DPF = "7";

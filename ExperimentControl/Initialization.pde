@@ -134,6 +134,15 @@ float arrayAvg(float[] arrayToAvg) {
 }
 
 
+int arraySum(int[] array) {
+  int sum = 0;
+  for (int i=0; i<array.length; i++) {
+    sum += array[i];
+  }
+  return sum;
+}
+
+
 //Save and quit at the end
 void keyPressed() {
     if (key == 's' || key == ESC)
