@@ -2,7 +2,6 @@ int CurrentTime = 0;
 int acquisition = 0;
 
 
-int[][] motifduration = segmentduration;
 int gainindex = 0;
 float randgain = 0.0;
 
@@ -19,9 +18,11 @@ Boolean new_rep = false;
 int sumduration = 0;
 
 
-int[][] MotifDuration = new int[motifduration.length][motifduration[0].length];
-int[][] DurIncrement = new int[motifduration.length][motifduration[0].length];
-float[][] fs = FlowSequence;
+int[][] motifduration = new int[arraySum(subreps)][0];
+int[][] DurIncrement;
+float[][] fs = new float[arraySum(subreps)][0]; 
+float[][] gs = new float[arraySum(subreps)][0]; 
+
 float speed = 0.0;
 float randflow = 0.0;
 

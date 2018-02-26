@@ -3,15 +3,15 @@ boolean OpenLoop = false;
 boolean Repeat = true;    //Allow multiple repeats or not
 
 //Sequence of gain changes to be followed if repeat == true
-float[][] GainSequence = {{1,1}};
+float[][] GainSequence = {{1,1},{2,2,2}};
 
 //Sequence of flow changes
-float[][] FlowSequence = {{0,1}};
+float[][] FlowSequence = {{0,1},{2,2,2}};
 //*** smoothing timecourse can be set in the Initialization tab ***
 boolean smoothFlow = false; //Smooth transition between two flow settings
                          
 //Duration of a single repeat in seconds
-int[][] segmentduration = {{5,2}};
+int[][] segmentduration = {{5,2},{1,1,1}};
 
 //Randomization
 boolean gainRandomize = false;
@@ -40,7 +40,7 @@ boolean boutClamp = true;
 int[][] clampPattern = {{0,1}};
 float clampAfter = 1; //milliseconds after bout end to stop baseline flow
 
-int subreps = {2};                   //Repeats of each block before going to the next
+int[] subreps = {2,2};                   //Repeats of each block before going to the next
 int nrepeats = 60;                   //Repeats of the gain sequence per trial
 int cycles = 1;                      //Number of cycles of each trial
 

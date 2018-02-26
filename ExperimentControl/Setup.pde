@@ -1,6 +1,30 @@
 void setup() {
   
-  if (setup == false){
+  if (setup == false){  
+    
+    int tempcount = 0;
+    for (int i=0; i<segmentduration.length; i++) {
+      for (int j=0; j<subreps[i]; j++) {
+        motifduration[tempcount] = segmentduration[i];
+        tempcount++;
+      }
+    }    
+    
+    tempcount = 0;    
+    for (int i=0; i<FlowSequence.length; i++) {
+      for (int j=0; j<subreps[i]; j++) {
+        fs[tempcount] = FlowSequence[i];
+        tempcount++;
+      }
+    }
+
+    tempcount = 0;    
+    for (int i=0; i<GainSequence.length; i++) {
+      for (int j=0; j<subreps[i]; j++) {
+        gs[tempcount] = GainSequence[i];
+        tempcount++;
+      }
+    }    
     
     for (int i=0; i<fs.length; i++){
       for (int ii=0; ii<fs[i].length; ii++){
@@ -8,13 +32,21 @@ void setup() {
       }
     }
     
-    for(int i=0; i<segmentduration.length; i++){
+    int[][] MotifDuration = new int[motifduration.length][0];
+    int[][] DurIncrement = new int[motifduration.length][0];
+    for (int i=0; i<motifduration.length; i++) {
+      MotifDuration[i] = new int[motifduration[i].length];
+      DurIncrement[i] = new int[motifduration[i].length];
+    }
+ 
+    for(int i=0; i<motifduration.length; i++){
       for (int ii=0; ii<motifduration[i].length; ii++){
         sumduration = sumduration+motifduration[i][ii];
         MotifDuration[i][ii] = motifduration[i][ii]*1000;
         DurIncrement[i][ii] = sumduration*1000;
       }
     }
+     
     sumduration=sumduration*1000;
     
     if (Repeat==true)
@@ -23,7 +55,7 @@ void setup() {
     }
     else
     {
-      TrialDuration = segmentduration[0][0]*1000;
+      TrialDuration = motifduration[0][0]*1000;
       cycles = 1;
     }
     
