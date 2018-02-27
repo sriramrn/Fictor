@@ -3,15 +3,15 @@ boolean OpenLoop = false;
 boolean Repeat = true;    //Allow multiple repeats or not
 
 //Sequence of gain changes to be followed if repeat == true
-float[][] GainSequence = {{1,1},{2,2}};
+float[][] GainSequence = {{1,1},{1,1}};
 
 //Sequence of flow changes
-float[][] FlowSequence = {{0,1},{2,3}};
+float[][] FlowSequence = {{0,1},{0,1}};
 //*** smoothing timecourse can be set in the Initialization tab ***
 boolean smoothFlow = false; //Smooth transition between two flow settings
                          
 //Duration of a single repeat in seconds
-int[][] segmentduration = {{5,2},{1,1}};
+int[][] segmentduration = {{5,2},{7,2}};
 
 //Randomization
 boolean gainRandomize = false;
@@ -24,8 +24,8 @@ float[] flowBucket = {1.0,0.5,2.0};
 
 //Override flow value at certain trials
 boolean flowOverride = true;
-int[] flowOverrideTrials = {7,16,22,36,43,57}; //index from 0
-int[][] flowOverridePattern = {{0,1},{0,0}};
+int[] flowOverrideTrials = {1,5,8,12,25,29,62,64,67,69}; //index from 0
+int[][] flowOverridePattern = {{0,1},{0,1}};
 int flowOverrideValue = 0; 
 
 //*** Maximum value is 1000ms. Change if necessary in the Initialization tab ***
@@ -37,10 +37,10 @@ float[] delayBucket = {1,1,1,1,1,1,200,400};
 // Stop optic flow after a single bout to isolate calcium responses for each bout
 //*** bout detection threshold can be set in the Initialization tab ***
 boolean boutClamp = false;
-int[][] clampPattern = {{0,1},{0,0}};
+int[][] clampPattern = {{0,1},{0,1}};
 float clampAfter = 1; //milliseconds after bout end to stop baseline flow
 
-int[] subreps = {2,3};                   //Repeats of each block before going to the next
+int[] subreps = {40,40};             //Repeats of each block before going to the next
 int nrepeats = 1;                    //Repeats of the gain sequence per trial
 int cycles = 1;                      //Number of cycles of each trial
 

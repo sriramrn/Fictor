@@ -169,6 +169,34 @@ void setup() {
       notes.println("Flow Seed\t\t:\tN.A.");
     }
     
+    notes.println("Flow Override\t\t:\t"+str(flowOverride));
+    if (flowOverride) {
+      notes.print("Flow Override Pattern\t:\t{");
+      for (int i=0; i<flowOverridePattern.length; i++){
+        notes.print("{");
+        for (int  ii=0; ii<flowOverridePattern[i].length; ii++){
+          notes.print(flowOverridePattern[i][ii]);
+          if (ii<flowOverridePattern[i].length-1){notes.print(",");}
+        }
+        notes.print("}");
+        if (i==flowOverridePattern.length-1){notes.print("}");}
+      }
+      notes.println();
+      
+      notes.print("Flow Override Trials\t:\t{");
+      for (int i=0; i<flowOverrideTrials.length; i++){
+          notes.print(flowOverrideTrials[i]);
+          if (i<flowOverrideTrials.length-1){notes.print(",");}
+        }
+      notes.print("}");
+      notes.println();
+      
+    }
+    else {
+      notes.println("Flow Override Pattern\t:\tN.A.");
+      notes.println("Flow Override Trials\t:\tN.A.");
+    }    
+    
     notes.println("Feedback Delay\t\t:\t"+str(feedbackDelay));
     notes.println("Delay Randomize\t\t:\t"+str(delayRandomize));
     if (delayRandomize) {

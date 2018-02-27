@@ -105,7 +105,7 @@ void draw() {
       
       
       if (flowOverride) {
-        if (ifisin(trialcounter,flowOverrideTrials) && fop[repeatcounter][motifcounter] == 1) {
+        if (ifisin(curr_rep,flowOverrideTrials) && fop[repeatcounter][motifcounter] == 1) {
           speed = flowOvrdVal;
         }
       }
