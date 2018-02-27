@@ -1,5 +1,5 @@
 void draw() {
-
+  
   frame.setTitle("fps: " + round(frameRate));     
   frame.setLocation(1750,0); 
   
@@ -56,12 +56,12 @@ void draw() {
         randflow = randompick(flowBucket)/pixelwidth;
         randelay = ceil(randompick(delayBucket)/frameinterval)-1;
       }
-      if (motifcounter == GainSequence[repeatcounter].length)
+      if (motifcounter == gs[repeatcounter].length)
       {
         motifcounter = 0;
         repeatcounter += 1;
         curr_rep += 1;
-        if (repeatcounter == GainSequence.length)
+        if (repeatcounter == gs.length)
         {
           motifcounter = 0;
           repeatcounter = 0;
@@ -70,14 +70,14 @@ void draw() {
       }
       
       if (!gainRandomize) {
-        gain = GainSequence[repeatcounter][motifcounter];
+        gain = gs[repeatcounter][motifcounter];
       }
       else {
-        if (gainRandPattern[repeatcounter][motifcounter] == 1) {
+        if (grp[repeatcounter][motifcounter] == 1) {
           gain = randgain;
         }
         else {
-          gain = GainSequence[repeatcounter][motifcounter];
+          gain = gs[repeatcounter][motifcounter];
         }
       }
       
@@ -85,7 +85,7 @@ void draw() {
         speed = fs[repeatcounter][motifcounter];
       }
       else {
-        if (flowRandPattern[repeatcounter][motifcounter] == 1) {
+        if (frp[repeatcounter][motifcounter] == 1) {
           speed = randflow;
         }
         else {
@@ -94,7 +94,7 @@ void draw() {
       }
       
       if (delayRandomize) {
-        if (delayRandPattern[repeatcounter][motifcounter] == 1) {
+        if (drp[repeatcounter][motifcounter] == 1) {
           delayIndex = randelay;
         }
         else {
@@ -105,7 +105,7 @@ void draw() {
       
       
       if (flowOverride) {
-        if (ifisin(trialcounter,flowOverrideTrials) && flowOverridePattern[repeatcounter][motifcounter] == 1) {
+        if (ifisin(trialcounter,flowOverrideTrials) && fop[repeatcounter][motifcounter] == 1) {
           speed = flowOvrdVal;
         }
       }
@@ -116,7 +116,7 @@ void draw() {
           boutStart = false;
           boutEnd = false;
         }        
-        if (clampPattern[repeatcounter][motifcounter] == 1) {
+        if (clp[repeatcounter][motifcounter] == 1) {
           if (k >= boutThreshold && !boutStart) {
             boutStart = true;
           }

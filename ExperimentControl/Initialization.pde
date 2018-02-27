@@ -10,7 +10,7 @@ int Trigger = 0;
 int TrialDuration = 0;
 int TriggerTime = -10000000; //Do not edit
 int repeatcounter = 0;
-int trialcounter =0;
+int trialcounter = 0;
 int motifcounter = 0;
 int curr_rep =0;
 int prev_rep = 0;
@@ -19,9 +19,16 @@ int sumduration = 0;
 
 
 int[][] motifduration = new int[arraySum(subreps)][0];
-int[][] DurIncrement;
-float[][] fs = new float[arraySum(subreps)][0]; 
-float[][] gs = new float[arraySum(subreps)][0]; 
+int[][] MotifDuration = new int[arraySum(subreps)][0];
+int[][] DurIncrement = new int[arraySum(subreps)][0];
+float[][] fseq = new float[arraySum(subreps)][0];
+float[][] fs = new float[arraySum(subreps)][0];
+float[][] gs = new float[arraySum(subreps)][0];
+int[][] grp = new int[arraySum(subreps)][0];
+int[][] frp = new int[arraySum(subreps)][0];
+int[][] fop = new int[arraySum(subreps)][0];
+int[][] drp = new int[arraySum(subreps)][0];
+int[][] clp = new int[arraySum(subreps)][0];
 
 float speed = 0.0;
 float randflow = 0.0;
