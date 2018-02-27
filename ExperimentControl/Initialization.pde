@@ -166,8 +166,6 @@ void keyPressed() {
     notes.println("Comments\t\t:\t");
     notes.flush();
     notes.close();
-    String[] paramfile = {"C://Windows//System32//notepad.exe", path+"/"+date+"/"+basename+"/"+"params.txt"};
-    open(paramfile);
   } 
 }
 

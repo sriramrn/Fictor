@@ -226,7 +226,6 @@ void setup() {
   
   //Draw window
   frameRate(framerate);
-  size(WindowWidth,WindowHeight,OPENGL);
   background(255, 255, 255);       
   noStroke();                
   fill(0, 0, 0);
@@ -256,5 +255,9 @@ void setup() {
   arduino.pinMode(self_trig_out, Arduino.OUTPUT);
   arduino.digitalWrite(self_trig_out, Arduino.LOW);   
   
+}
+
+void settings() {
+  size(1000,500,P2D);
 }
 

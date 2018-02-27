@@ -1,7 +1,9 @@
 void draw() {
   
-  frame.setTitle("fps: " + round(frameRate));     
-  frame.setLocation(1750,0); 
+  surface.setTitle("fps: " + round(frameRate));
+  if (frameCount == 1) {
+    surface.setLocation(1750,0); 
+  }
   
   speed = fs[repeatcounter][motifcounter];
   scal = 1/(frameRate*per);
