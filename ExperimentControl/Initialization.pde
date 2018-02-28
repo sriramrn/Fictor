@@ -2,7 +2,6 @@ int CurrentTime = 0;
 int acquisition = 0;
 
 
-int[][] motifduration = segmentduration;
 int gainindex = 0;
 float randgain = 0.0;
 
@@ -11,7 +10,7 @@ int Trigger = 0;
 int TrialDuration = 0;
 int TriggerTime = -10000000; //Do not edit
 int repeatcounter = 0;
-int trialcounter =0;
+int trialcounter = 0;
 int motifcounter = 0;
 int curr_rep =0;
 int prev_rep = 0;
@@ -19,9 +18,18 @@ Boolean new_rep = false;
 int sumduration = 0;
 
 
-int[][] MotifDuration = new int[motifduration.length][motifduration[0].length];
-int[][] DurIncrement = new int[motifduration.length][motifduration[0].length];
-float[][] fs = FlowSequence;
+int[][] motifduration = new int[arraySum(subreps)][0];
+int[][] MotifDuration = new int[arraySum(subreps)][0];
+int[][] DurIncrement = new int[arraySum(subreps)][0];
+float[][] fseq = new float[arraySum(subreps)][0];
+float[][] fs = new float[arraySum(subreps)][0];
+float[][] gs = new float[arraySum(subreps)][0];
+int[][] grp = new int[arraySum(subreps)][0];
+int[][] frp = new int[arraySum(subreps)][0];
+int[][] fop = new int[arraySum(subreps)][0];
+int[][] drp = new int[arraySum(subreps)][0];
+int[][] clp = new int[arraySum(subreps)][0];
+
 float speed = 0.0;
 float randflow = 0.0;
 
@@ -131,6 +139,15 @@ float arrayAvg(float[] arrayToAvg) {
   }
   float avg = sum/len;
   return avg;
+}
+
+
+int arraySum(int[] array) {
+  int sum = 0;
+  for (int i=0; i<array.length; i++) {
+    sum += array[i];
+  }
+  return sum;
 }
 
 

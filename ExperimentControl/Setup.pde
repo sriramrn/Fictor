@@ -1,20 +1,39 @@
 void setup() {
   
-  if (setup == false){
+  if (setup == false){      
+       
+    int tempcount = 0;
+    for (int i=0; i<segmentduration.length; i++) {
+      for (int j=0; j<subreps[i]; j++) {
+        motifduration[tempcount] = segmentduration[i];
+        fseq[tempcount] = FlowSequence[i];
+        gs[tempcount] = GainSequence[i]; 
+        grp[tempcount] = gainRandPattern[i];
+        frp[tempcount] = flowRandPattern[i];
+        fop[tempcount] = flowOverridePattern[i];
+        drp[tempcount] = delayRandPattern[i];
+        clp[tempcount] = clampPattern[i];        
+        tempcount++;
+      }
+    }        
     
-    for (int i=0; i<fs.length; i++){
-      for (int ii=0; ii<fs[i].length; ii++){
-        fs[i][ii] = fs[i][ii]/(pixelwidth);
+    for (int i=0; i<fseq.length; i++){
+      fs[i] = new float[fseq[i].length];
+      for (int ii=0; ii<fseq[i].length; ii++){
+        fs[i][ii] = fseq[i][ii]/(pixelwidth);
       }
     }
-    
-    for(int i=0; i<segmentduration.length; i++){
+ 
+    for(int i=0; i<motifduration.length; i++){
+      MotifDuration[i] = new int[motifduration[i].length];
+      DurIncrement[i] = new int[motifduration[i].length];
       for (int ii=0; ii<motifduration[i].length; ii++){
         sumduration = sumduration+motifduration[i][ii];
         MotifDuration[i][ii] = motifduration[i][ii]*1000;
         DurIncrement[i][ii] = sumduration*1000;
       }
-    }
+    } 
+     
     sumduration=sumduration*1000;
     
     if (Repeat==true)
@@ -23,7 +42,7 @@ void setup() {
     }
     else
     {
-      TrialDuration = segmentduration[0][0]*1000;
+      TrialDuration = motifduration[0][0]*1000;
       cycles = 1;
     }
     
@@ -43,6 +62,15 @@ void setup() {
     notes.println("CL Scaling Factor \t:\t"+str(movement_scaling));
     notes.println("Repeat\t\t\t:\t"+str(Repeat));
     notes.println("Number of Repeats\t:\t"+str(nrepeats));
+
+    notes.print("Number of Sub Repeats\t:\t{");    
+    for (int i=0; i<subreps.length; i++){
+      notes.print(subreps[i]);
+      if (i<subreps.length-1){notes.print(",");}
+    }
+    notes.print("}");
+    notes.println();
+      
     notes.println("Cycles\t\t\t:\t"+str(cycles));
     notes.println("Initialization Delay\t:\t"+str(init_delay));
     notes.println("Cycle Delay\t\t:\t"+str(trial_delay));
@@ -63,7 +91,7 @@ void setup() {
     for(int i=0; i<FlowSequence.length; i++){
       notes.print("{");
       for (int ii=0; ii<FlowSequence[i].length; ii++){      
-        notes.print(FlowSequence[i][ii]*pixelwidth);
+        notes.print(FlowSequence[i][ii]);
         if (ii<FlowSequence[i].length-1){notes.print(",");}
       }
       notes.print("}");
@@ -141,6 +169,34 @@ void setup() {
       notes.println("Flow Seed\t\t:\tN.A.");
     }
     
+    notes.println("Flow Override\t\t:\t"+str(flowOverride));
+    if (flowOverride) {
+      notes.print("Flow Override Pattern\t:\t{");
+      for (int i=0; i<flowOverridePattern.length; i++){
+        notes.print("{");
+        for (int  ii=0; ii<flowOverridePattern[i].length; ii++){
+          notes.print(flowOverridePattern[i][ii]);
+          if (ii<flowOverridePattern[i].length-1){notes.print(",");}
+        }
+        notes.print("}");
+        if (i==flowOverridePattern.length-1){notes.print("}");}
+      }
+      notes.println();
+      
+      notes.print("Flow Override Trials\t:\t{");
+      for (int i=0; i<flowOverrideTrials.length; i++){
+          notes.print(flowOverrideTrials[i]);
+          if (i<flowOverrideTrials.length-1){notes.print(",");}
+        }
+      notes.print("}");
+      notes.println();
+      
+    }
+    else {
+      notes.println("Flow Override Pattern\t:\tN.A.");
+      notes.println("Flow Override Trials\t:\tN.A.");
+    }    
+    
     notes.println("Feedback Delay\t\t:\t"+str(feedbackDelay));
     notes.println("Delay Randomize\t\t:\t"+str(delayRandomize));
     if (delayRandomize) {
@@ -210,6 +266,8 @@ void setup() {
   myshader.set("sper", per);
   myshader.set("contrast", c);
 
+  delay(100);
+
   //Setup UDP communication
   //Port number (2323) must match the port number used by the sender
   oscP5 = new OscP5(this,2323);
@@ -224,7 +282,7 @@ void setup() {
   arduino.digitalWrite(trig_out, Arduino.LOW);
   
   arduino.pinMode(self_trig_out, Arduino.OUTPUT);
-  arduino.digitalWrite(self_trig_out, Arduino.LOW);
+  arduino.digitalWrite(self_trig_out, Arduino.LOW);   
   
 }
 
