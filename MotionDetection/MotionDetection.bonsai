@@ -89,8 +89,8 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:Crop">
                 <q4:RegionOfInterest>
-                  <q4:X>134</q4:X>
-                  <q4:Y>189</q4:Y>
+                  <q4:X>206</q4:X>
+                  <q4:Y>192</q4:Y>
                   <q4:Width>204</q4:Width>
                   <q4:Height>256</q4:Height>
                 </q4:RegionOfInterest>
