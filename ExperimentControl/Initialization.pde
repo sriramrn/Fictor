@@ -74,6 +74,8 @@ String[] Data = new String[6];
 String date = "";
 
 PrintWriter notes;
+PrintWriter boutTimeWriter;
+
 String time=(str(hour())+":"+str(minute())+":"+str(second()));
 
 String GenerateDate(){
@@ -160,12 +162,19 @@ void keyPressed() {
       DataWriter[i].flush();
       DataWriter[i].close();
     }
-    exit();
     
     notes.println();
     notes.println("Comments\t\t:\t");
     notes.flush();
     notes.close();
+    
+    if (boutTimeLog) {
+      boutTimeWriter.flush();
+      boutTimeWriter.close();
+    }
+    
+    exit();
+    
     String[] paramfile = {"C://Windows//System32//notepad.exe", path+"/"+date+"/"+basename+"/"+"params.txt"};
     open(paramfile);
   } 

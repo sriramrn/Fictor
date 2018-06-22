@@ -52,6 +52,10 @@ void setup() {
       DataWriter[i] = createWriter(filepath + Filenames[i] + ".txt");
     }
     
+    if (boutTimeLog) {
+      boutTimeWriter = createWriter(filepath+"boutStartTimes.txt"); 
+    }
+    
     //Save parameters
     notes = createWriter(path+"/"+date+"/"+basename+"/"+"params.txt");
     notes.println("Date\t\t\t:\t"+date);

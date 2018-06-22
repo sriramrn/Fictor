@@ -119,6 +119,9 @@ void draw() {
         if (clp[repeatcounter][motifcounter] == 1) {
           if (k >= boutThreshold && !boutStart) {
             boutStart = true;
+            if (boutTimeLog) {
+              boutTimeWriter.println(CurrentTime);
+            }
           }
           if (k < boutThreshold && boutStart && !boutEnd) {
             boutEnd = true;
@@ -155,11 +158,21 @@ void draw() {
     Data[0] = str(copy_k); Data[1] = str(CurrentTime); Data[2] = str(gain);
     Data[3] = str(speed*pixelwidth); Data[4] = str(((float) raw_k)*movement_scaling);
     Data[5] = str(delayIndex);
-    
+
     for (int i = 0; i < DataWriter.length; i++) 
     {
-      DataWriter[i].println(Data[i]+',');
-      DataWriter[i].flush();
+      DataWriter[i].println(Data[i]+','); //The comma separation is for legacy reasons
+    }
+
+    // flush text buffer during non-critical periods of the closed-loop experiment
+    if (k < boutThreshold) {
+      for (int i = 0; i < DataWriter.length; i++) 
+      {
+        DataWriter[i].flush();
+      }
+      if (boutTimeLog) {
+        boutTimeWriter.flush();
+      }
     }
     
   }

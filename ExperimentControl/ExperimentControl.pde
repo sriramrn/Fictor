@@ -49,3 +49,5 @@ String DPF = "8";
 
 String path = "D:/ClosedLoopRaw";
 String basename = "test";
+
+boolean boutTimeLog = true;
