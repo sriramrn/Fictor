@@ -46,6 +46,10 @@ void setup() {
       cycles = 1;
     }
     
+    // convert to milliseconds
+    optoStimDelay = optoStimDelay*1000;
+    optoStimDuration = optoStimDuration*1000;
+    
     date = GenerateDate();    
     filepath = GeneratePath(path,date,basename,acquisition);
     for (int i=0; i<DataWriter.length; i++) {
@@ -251,6 +255,23 @@ void setup() {
       notes.println("Clamp Delay\t\t:\tN.A.");
     }
     
+    
+    notes.println("Optostim\t\t:\t"+str(optoStim));
+    if (optoStim) {
+      notes.print("Optostim Trials\t\t:\t{");
+      for (int i=0; i<optoStimTrials.length; i++){
+          notes.print(optoStimTrials[i]);
+          if (i<optoStimTrials.length-1){notes.print(",");}
+        }
+      notes.print("}");
+      notes.println();
+      
+    }
+    else {
+      notes.println("Optostim Trials\t\t:\tN.A.");
+    }    
+    
+    
     notes.flush();
     
     setup = true;
@@ -286,7 +307,10 @@ void setup() {
   arduino.digitalWrite(trig_out, Arduino.LOW);
   
   arduino.pinMode(self_trig_out, Arduino.OUTPUT);
-  arduino.digitalWrite(self_trig_out, Arduino.LOW);   
+  arduino.digitalWrite(self_trig_out, Arduino.LOW);
+  
+  arduino.pinMode(optoStimPin, Arduino.OUTPUT);
+  arduino.digitalWrite(optoStimPin, Arduino.LOW);  
   
 }
 

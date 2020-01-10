@@ -1,6 +1,6 @@
 int CurrentTime = 0;
 int acquisition = 0;
-
+int trialOnsetTime = 0;
 
 int gainindex = 0;
 float randgain = 0.0;
@@ -33,6 +33,12 @@ int[][] clp = new int[arraySum(subreps)][0];
 float speed = 0.0;
 float randflow = 0.0;
 
+//Optogenetic stimulation
+int optoStimPin = 6;
+int optoStimState = Arduino.LOW;
+int stimOnsetTime = 0;
+boolean stim = false;
+
 
 //Delay line with FIFO buffer
 int maxDelay = 1000; //maximum number of milliseconds to buffer delay
@@ -62,6 +68,7 @@ float prevSpeed = 0;
 float minSpeed = 0.01;
 
 float flowOvrdVal = flowOverrideValue/pixelwidth;
+float randOvrdVal = 0.0;
 
 //Prevents trial structure calculation in void setup() from running twice 
 boolean setup = false;
@@ -172,6 +179,8 @@ void keyPressed() {
       boutTimeWriter.flush();
       boutTimeWriter.close();
     }
+    
+    arduino.digitalWrite(optoStimPin,Arduino.LOW);
     
     exit();
     

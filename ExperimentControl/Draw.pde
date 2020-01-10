@@ -15,12 +15,17 @@ void draw() {
     trigswitch = 1;
     TriggerTime = CurrentTime;   
     acquisition++;
+    trialOnsetTime = CurrentTime;
+
     
     if (end == false){
       println("current cycle = " + str(acquisition) + " out of " + str(cycles));
-      println("Trial No: 1");}
+      println("Trial No: 1");
+    }
 
+    
   }
+  
   else
   { Trigger=0; }  
   
@@ -49,13 +54,16 @@ void draw() {
     //Gain sequence
     if (Repeat == true)
     {
+
       if (CurrentTime-TriggerTime >= DurIncrement[repeatcounter][motifcounter] + sumduration*trialcounter)
       {
         motifcounter += 1;
         randgain = randompick(gainBucket);
         randflow = randompick(flowBucket)/pixelwidth;
         randelay = ceil(randompick(delayBucket)/frameinterval)-1;
+        randOvrdVal = randompick(overrideBucket)/pixelwidth;
       }
+      
       if (motifcounter == gs[repeatcounter].length)
       {
         motifcounter = 0;
@@ -67,6 +75,7 @@ void draw() {
           repeatcounter = 0;
           trialcounter += 1;
         }
+        trialOnsetTime = CurrentTime;
       }
       
       if (!gainRandomize) {
@@ -106,8 +115,30 @@ void draw() {
       
       if (flowOverride) {
         if (ifisin(curr_rep,flowOverrideTrials) && fop[repeatcounter][motifcounter] == 1) {
-          speed = flowOvrdVal;
+          if (!overrideRandomize) {
+            speed = flowOvrdVal;
+          }
+          else {
+            speed = randOvrdVal;
+          }
         }
+      }
+      
+      
+      if (optoStim) {
+        
+        if (ifisin(curr_rep,optoStimTrials) && CurrentTime - trialOnsetTime >= optoStimDelay && optoStimState == Arduino.LOW && stim == false) {
+          optoStimState = Arduino.HIGH;
+          stimOnsetTime = CurrentTime;
+          stim = true;
+          arduino.digitalWrite(optoStimPin,optoStimState);
+        }
+        
+        if (optoStimState == Arduino.HIGH && CurrentTime - stimOnsetTime >= optoStimDuration) {
+          optoStimState = Arduino.LOW;
+          arduino.digitalWrite(optoStimPin,optoStimState);
+        }
+        
       }
       
       
@@ -222,7 +253,7 @@ void draw() {
       arduino.digitalWrite(self_trig_out, Arduino.HIGH);
       self_trig_state = 1;
       self_trig_time = millis();
-      init = false;    
+      init = false;
     }
     
     if (init == false && Trigger == 0 && tdel_start ==false)  {
@@ -234,7 +265,7 @@ void draw() {
       arduino.digitalWrite(self_trig_out, Arduino.HIGH);
       self_trig_state = 1;
       self_trig_time = millis();
-      tdel_start = false;    
+      tdel_start = false;
     }
     
   }
@@ -242,12 +273,16 @@ void draw() {
    
   if (curr_rep-prev_rep > 0){
     new_rep = true;
+    stim = false;
     println("Trial No: " + str(curr_rep+1));
   }
+  
   else {
     new_rep = false;
   }
+  
   prev_rep = curr_rep; 
+
 
   if (trigger_on_repeats == true && new_rep == true && self_trig_state == 0) {
     arduino.digitalWrite(self_trig_out, Arduino.HIGH);

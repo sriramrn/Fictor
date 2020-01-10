@@ -18,7 +18,7 @@ int self_trig_out = 8;
 int self_trig_state = 0;
 int self_trig_time = 0;
 
-int init_delay = 10;  //time in seconds to wait for first trigger 
+int init_delay = 3;  //time in seconds to wait for first trigger 
 int trial_delay = 60; //interval in seconds between trials
 
 boolean trigger_on_repeats = false; 
