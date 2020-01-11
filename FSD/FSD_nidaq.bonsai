@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q1="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:q2="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q3="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc" xmlns:q4="clr-namespace:Bonsai.NationalInstruments;assembly=Bonsai.NationalInstruments" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Butterworth">
+          <q1:SamplingFrequency>12000</q1:SamplingFrequency>
+          <q1:Cutoff1>200</q1:Cutoff1>
+          <q1:Cutoff2>5000</q1:Cutoff2>
+          <q1:FilterOrder>3</q1:FilterOrder>
+          <q1:FilterType>BandPass</q1:FilterType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Butterworth">
+          <q1:SamplingFrequency>100</q1:SamplingFrequency>
+          <q1:Cutoff1>10</q1:Cutoff1>
+          <q1:Cutoff2>0</q1:Cutoff2>
+          <q1:FilterOrder>6</q1:FilterOrder>
+          <q1:FilterType>LowPass</q1:FilterType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="CombineLatest" />
+      </Expression>
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Name>StandardDeviation</q2:Name>
+        <q2:Description>Standard deviation of input array</q2:Description>
+        <q2:Script>import math
+
+@returns(float)
+
+def process(array):
+  length = len(array)
+  mean = sum(array)/length
+  stdv = math.sqrt(sum([(x-mean)**2 for x in array])/length)
+
+  return stdv</q2:Script>
+      </Expression>
+      <Expression xsi:type="q1:ConvertToArray">
+        <q1:Depth>F64</q1:Depth>
+      </Expression>
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Name>Offset</q2:Name>
+        <q2:Description>Update offset based on standard deviation around a large window</q2:Description>
+        <q2:Script>@returns(float)
+
+def process(array):
+  
+  sort = sorted(array)
+  offset = sort[int(len(array)/2)] # crude median estimate
+
+  return offset</q2:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Buffer">
+          <Count>200</Count>
+          <Skip xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Subtract" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="CombineLatest" />
+      </Expression>
+      <Expression xsi:type="Subtract" />
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Name>Rectify</q2:Name>
+        <q2:Description />
+        <q2:Script>@returns(float)
+
+def process(value):
+
+  rect = 0
+  if value &gt; 0:
+    rect = value
+
+  return rect</q2:Script>
+      </Expression>
+      <Expression xsi:type="q3:SendMessage">
+        <q3:Connection>UdpSend</q3:Connection>
+        <q3:Address>/number</q3:Address>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TimeInterval" />
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Interval.Milliseconds</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="FloatProperty">
+          <Value>0.1</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleButterworth">
+        <MemberName>SamplingFrequency</MemberName>
+        <Name>SamplingFrequency</Name>
+        <Value>100</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:AnalogInput">
+          <q4:SignalSource />
+          <q4:SampleRate>12000</q4:SampleRate>
+          <q4:ActiveEdge>Rising</q4:ActiveEdge>
+          <q4:QuantityMode>ContinuousSamples</q4:QuantityMode>
+          <q4:BufferSize>1000</q4:BufferSize>
+          <q4:SamplesPerRead>120</q4:SamplesPerRead>
+          <q4:Channels>
+            <q4:AnalogInputChannelConfiguration>
+              <q4:ChannelName>SuctionRecording</q4:ChannelName>
+              <q4:MinimumValue>-10</q4:MinimumValue>
+              <q4:MaximumValue>10</q4:MaximumValue>
+              <q4:PhysicalChannel>Dev1/ai2</q4:PhysicalChannel>
+              <q4:TerminalConfiguration>Differential</q4:TerminalConfiguration>
+              <q4:VoltageUnits>Volts</q4:VoltageUnits>
+            </q4:AnalogInputChannelConfiguration>
+          </q4:Channels>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>12</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>9</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>4</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>8</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>8</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>10</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>12</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>2</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>15</From>
+        <To>1</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
+        <To>0</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Dsp.Butterworth, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.ConvertToArray, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Buffer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.SubtractBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Osc.SendMessage, Bonsai.Osc, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.TimeInterval, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.FloatProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.Butterworth, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.NationalInstruments.AnalogInput, Bonsai.NationalInstruments, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
